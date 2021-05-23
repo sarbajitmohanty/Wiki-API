@@ -71,11 +71,34 @@ app.route("/articles/:articleTitle")
                 res.send("No articles matching that title was found");
             }
         });
+    })
+
+    .put(function (req, res) {
+        Article.update(
+            { title: req.params.articleTitle },
+            { title: req.body.title, content: req.body.content },
+            { overwrite: true },
+            function (err) {
+                if (!err) {
+                    res.send("Successfully updated article.");
+                }
+            }
+        );
+    })
+
+    .patch(function (req, res) {
+        Article.update(
+            { title: req.params.articleTitle },
+            { $set: req.body },
+            function (err) {
+                if (!err) {
+                    res.send("Successfully updated article.");
+                } else {
+                    res.send(err);
+                }
+            }
+        );
     });
-
-// .put()
-
-// .patch()
 
 // .delete();
 
